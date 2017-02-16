@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="style.css">
+        <title>Magic Finder !</title>
+        <script src="angular.js"></script>
+        <script src="player.js"></script>
+        <script src="materiel.js"></script>
+        <script src="historic.js"></script>
+        <script src="experience.js"></script>
+        <script src="magic.js"></script>
+        
+    </head>
+    
+    <body ng-app="magic" ng-controller="testCtrl">
+        <!-- ENCRAN DE JEU -->
+        <div id="window">
+            
+            <header>
+                <p>Argent : {{money}} || Jour : {{day}}</p>
+                <button type="button" id="butDay" class="but" ng-click="nextDay()">Jour suivant</button>
+                <p id="indications">Pour créer une nouvelle expérience, il faut mélanger deux matériaux (pas plus). Pour cela il suffit de cocher les cases correspondantes à chaque entrée, et clicker sur le bouton "mélanger".</br> Pour obtenir le résutat d'une expérience il faut attendre un jour. Pour cela il suffit de cliquer sur "jour suivant". Plusieurs expérences peuvent être lancées simultanément.</p>
+            </header>
+            
+            <!-- ONGLETS -->
+            <div id="tab">
+                
+                <!-- STOCK -->
+                <div id="stock" class="boxe">
+                    <h2>STOCK</h2>
+                    <button type="button" id="butSell" class="but" ng-click="sellStock()">Vendre</button>
+                    <button type="button" id="butMix" class="but" ng-click="mixMat()">Mélanger</button>
+                    <section class="enum">
+                        <ul class="liste" id="stockJoueur-liste">
+                            <li ng-repeat="matStock in stock">
+                                <div>
+                                    {{matStock.quantity}} Unité(s) de {{matStock.name}} en stock. 
+                                    <input type="checkbox" ng-change="boxStockChecked()" ng-model="matStock.checked" /> Vendre : <input  type="number" min="0" max="{{matStock.quantity}}" ng-model="matStock.quantityBought" />
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+                <!-- /STOCK -->
+                
+                <!-- EXPERIENCES -->
+                <div id="exp" class="boxe">
+                    <h2>EXPERIENCES EN COURS</h2>
+                    <section class="enum">
+                        <ul class="liste" id="listeExp">
+                            <li ng-repeat="exp in expRunning">
+                                <div>
+                                    Vous avez mélangé {{exp.mat1Name}} et {{exp.mat2Name}}. Résultat dans {{exp.dayCount}} jour(s).
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+                <!-- /EXPERIENCES -->
+                
+                <!-- ACHAT -->
+                <div id="achat" class="boxe">
+                    <h2>ACHATS DISPONIBLES</h2>
+                    <button type="button" id="butBuy" class="but" ng-click="buyStock()">Acheter</button>
+                    <section class="enum">
+                        <ul class="liste" id="achat-liste">
+                            <!-- ng-class = css, voir doc https://docs.angularjs.org/api/ng/directive/ngClass-->
+                            <li ng-repeat="matAchat in stockAchat"
+                                <div>
+                                     {{matAchat.quantity}} Unité(s) de {{matAchat.name}} disponible(s). Acheter :
+                                <input type="number" min = "0" max="{{matAchat.quantity}}" ng-model="matAchat.quantityBought" /> 
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    <div id="selectAllBuy">Tout acheter.<input type="checkbox" ng-change="selectAllStock()" ng-model="selectAllBuyFlag" />
+                    </div>
+                </div>
+                <!-- /ACHAT -->
+                
+                <!-- RECETTES -->
+                <div id="recettes" class="boxe">
+                    <h2>RECETTES</h2>
+                    <section class="enum">
+                        <ul class="liste" id="listeRecette">
+                            <li ng-repeat="recette in recettesConnues">
+                                <div>
+                                    Vous avez appris qu'en mélangeant : {{recette.mat1Name}} et {{recette.mat2Name}} vous obtenez : {{recette.matGenName}}.
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+                <!-- /RECETTES -->
+                
+                <!-- HISTORIQUE -->
+                <div id="hist" class="boxe">
+                    <h2>HISTORIQUE</h2>
+                    <section class="enum">
+                        <ul class="liste" id="listeHist"></ul>
+                    </section>
+                </div>
+                <!-- /HISTORIQUE -->
+        
+                <!-- BUT -->
+                <div id="butJeu" class="boxe">
+                    <h2>MATERIAUX ULTIMES A OBTENIR</h2>
+                    <section class="enum">
+                        <ul class="liste" id="listeBut">
+                            <li id="D1" class="matGoal">Couvercle d'étoile</li>
+                            <li id="D2" class="matGoal">Pinceau à sueur</li>
+                            <li id="D3" class="matGoal">Karaoké de carpes</li>
+                            <li id="D4" class="matGoal">Licol d'espoir</li>
+                        </ul>
+                    </section>
+                </div>
+                <!-- /BUT -->
+            </div>
+            <!-- /ONGLETS -->
+        </div>
+        <!-- /ECRAN DE JEU -->
+    </body>
+</html>
