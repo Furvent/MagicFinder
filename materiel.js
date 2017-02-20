@@ -109,17 +109,17 @@ var licol = new Materiel("Licol d'espoir", 0, "D4");
 var stockAchatDB = [];
 stockAchatDB.push(duplicate(feu, 3));
 stockAchatDB.push(duplicate(crayon, 3));
-stockAchatDB.push(duplicate(ricanement, 3));
-stockAchatDB.push(duplicate(boite, 3));
-stockAchatDB.push(duplicate(flasque, 3));
-stockAchatDB.push(duplicate(bobine, 3));
-stockAchatDB.push(duplicate(revenu, 3));
-stockAchatDB.push(duplicate(creme, 3));
-stockAchatDB.push(duplicate(vengeance, 3));
-stockAchatDB.push(duplicate(marionnette, 3));
-stockAchatDB.push(duplicate(medaille, 3));
-stockAchatDB.push(duplicate(ecaille, 3));
-stockAchatDB.push(duplicate(sepulture, 3));
+//stockAchatDB.push(duplicate(ricanement, 3));
+//stockAchatDB.push(duplicate(boite, 3));
+//stockAchatDB.push(duplicate(flasque, 3));
+//stockAchatDB.push(duplicate(bobine, 3));
+//stockAchatDB.push(duplicate(revenu, 3));
+//stockAchatDB.push(duplicate(creme, 3));
+//stockAchatDB.push(duplicate(vengeance, 3));
+//stockAchatDB.push(duplicate(marionnette, 3));
+//stockAchatDB.push(duplicate(medaille, 3));
+//stockAchatDB.push(duplicate(ecaille, 3));
+//stockAchatDB.push(duplicate(sepulture, 3));
 /*** /Disponible à l'achat ***/
 
 /*** Disponible en stock ***/
