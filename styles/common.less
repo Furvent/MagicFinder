@@ -1,0 +1,69 @@
+// TITLE
+// font : 300 light / 400 normal / 700 bold
+h2 {
+    display: inline-block;
+    margin: 0 5px 10px 0;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+// TEXT
+.bold-txt {
+    font-weight: 700;
+}
+
+.my-label {
+    font-weight: 400;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+// LIST
+.boxe .enum .liste {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    & > li {
+        margin-bottom: 10px;
+        &.expFailedHistEntry {
+            color: @textFail;
+        }
+        &.expSuccessHistEntry {
+            color: @textSuccess;
+        }
+        &.expGoalSuccessHistEntry {
+            color: @textSuccess;
+        }
+    }
+}
+
+// MODAL
+.modal {
+    .modal-content {
+        .modal-header {
+            .modal-title {
+                font-weight: 700;
+            }
+        }
+        .modal-body {
+            .boxe {
+                text-align: center;
+                .enum {
+                    .liste {
+                        .matGoal {
+                            background-color: @textColor5;
+                            padding: 5px;
+                            .border-radius(3px);
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+        }
+        .modal-footer {
+            text-align: center;
+        }
+    }
+}

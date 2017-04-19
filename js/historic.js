@@ -7,42 +7,42 @@
 function buyHist(matName, matQuantity, matValue) {
     var elmt = document.createElement("li");
     elmt.className = "buyHistEntry";
-    elmt.textContent = "Vous avez acheté " + matQuantity + " unité(s) de " + matName + " pour une valeur de " + matQuantity * matValue + ".";
+    elmt.innerHTML = "Vous avez acheté <span class='bold-txt'>" + matQuantity + "</span> unité(s) de <span class='bold-txt'>" + matName + "</span> pour une valeur de <span class='bold-txt'>" + matQuantity * matValue + "</span>.";
     document.getElementById("listeHist").appendChild(elmt);
 }
 
 function sellHist(matName, matQuantity, matValue) {
     var elmt = document.createElement("li");
     elmt.className = "sellHistEntry";
-    elmt.textContent = "Vous avez vendu " + matQuantity + " unité(s) de " + matName + " pour une valeur de " + matQuantity * matValue + ".";
+    elmt.innerHTML = "Vous avez vendu <span class='bold-txt'>" + matQuantity + "</span> unité(s) de <span class='bold-txt'>" + matName + "</span> pour une valeur de <span class='bold-txt'>" + matQuantity * matValue + "</span>.";
     document.getElementById("listeHist").appendChild(elmt);
 }
 
 function expLaunchedHist(mat1, mat2) {
     var elmt = document.createElement("li");
     elmt.className = "expLaunchedHistEntry";
-    elmt.textContent = "Vous avez lancé une expérience en mélangeant : " + mat1.name + " et : " + mat2.name + ".";
+    elmt.innerHTML = "Vous avez lancé une expérience en mélangeant : <span class='bold-txt'>" + mat1.name + "</span> et <span class='bold-txt'>" + mat2.name + "</span>.";
     document.getElementById("listeHist").appendChild(elmt);
 }
 
 function expFailedHist(name1, name2) {
     var elmt = document.createElement("li");
     elmt.className = "expFailedHistEntry";
-    elmt.textContent = "En mélangeant : " + name1 + " et " + name2 + " l'expérience n'a rien donné.";
+    elmt.innerHTML = "En mélangeant : <span class='bold-txt'>" + name1 + "</span> et <span class='bold-txt'>" + name2 + "</span> l'expérience n'a rien donné.";
     document.getElementById("listeHist").appendChild(elmt);
 }
 
 function expSuccessHist(name1, name2, matGen) {
     var elmt = document.createElement("li");
     elmt.className = "expSuccessHistEntry";
-    elmt.textContent = "En mélangeant : " + name1 + " et " + name2 + " l'expérience a réussi et a donné : " + matGen.name + ".";
+    elmt.innerHTML = "En mélangeant : <span class='bold-txt'>" + name1 + "</span> et <span class='bold-txt'>" + name2 + "</span> l'expérience a réussi et a donné : <span class='bold-txt'>" + matGen.name + "</span>.";
     document.getElementById("listeHist").appendChild(elmt);
 }
 
 function expGoalSuccessHist(name1, name2, matGen) {
     var elmt = document.createElement("li");
     elmt.className = "expGoalSuccessHistEntry";
-    elmt.textContent = "En mélangeant : " + name1 + " et " + name2 + " l'expérience a réussi et a donné un des matériaux ultimes : " + matGen.name + ". Bravo !";
+    elmt.innerHTML = "En mélangeant : <span class='bold-txt'>" + name1 + "</span> et <span class='bold-txt'>" + name2 + "</span> l'expérience a réussi et a donné un des matériaux ultimes : <span class='bold-txt'>" + matGen.name + "</span>. Bravo !";
     document.getElementById("listeHist").appendChild(elmt);
 }
 

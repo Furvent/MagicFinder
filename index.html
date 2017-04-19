@@ -1,124 +1,229 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="style.css">
-        <title>Magic Finder !</title>
-        <script src="angular.js"></script>
-        <script src="player.js"></script>
-        <script src="materiel.js"></script>
-        <script src="historic.js"></script>
-        <script src="experience.js"></script>
-        <script src="magic.js"></script>
-        
-    </head>
-    
-    <body ng-app="magic" ng-controller="testCtrl">
-        <!-- ENCRAN DE JEU -->
-        <div id="window">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Magic Finder!</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" />
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,700" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="font-awesome/font-awesome.css" />
+    <!-- Mon style perso -->
+    <link rel="stylesheet" href="styles/global.css" />
+    <!-- jquery 3.1.1 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- javascript for game -->
+    <script src="js/angular.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/materiel.js"></script>
+    <script src="js/historic.js"></script>
+    <script src="js/experience.js"></script>
+    <script src="js/magic.js"></script>
+    <!-- javascript for ui -->
+    <script src="js/custom.js"></script>
+</head>
+
+<body ng-app="magic" ng-controller="testCtrl">
+    <!-- ENCRAN DE JEU -->
+    <div id="window">
+
+        <header>
+            <p class="left-p">
+                <span class="text-bloc first">
+                    Argent : <span class="bold-txt">{{money}}</span>
+                </span>
+                <span class="text-bloc">
+                    Jour : <span class="bold-txt">{{day}}</span>
+                </span>
+            </p>
+            <button type="button" id="butDay" class="but" ng-click="nextDay()">Jour suivant</button>
             
-            <header>
-                <p>Argent : {{money}} || Jour : {{day}}</p>
-                <button type="button" id="butDay" class="but" ng-click="nextDay()">Jour suivant</button>
-                <p id="indications">Pour créer une nouvelle expérience, il faut mélanger deux matériaux (pas plus). Pour cela il suffit de cocher les cases correspondantes à chaque entrée, et cliquer sur le bouton "mélanger".</br> Pour obtenir le résutat d'une expérience il faut attendre un jour. Pour cela il suffit de cliquer sur "jour suivant". Plusieurs expériences peuvent être lancées simultanément.</p>
-            </header>
-            
-            <!-- ONGLETS -->
-            <div id="tab">
-                
+            <button type="button" class="but rules-btn" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+            </button>
+        </header>
+
+        <!-- ONGLETS -->
+        <div id="tab">
+            <!-- COL 1 -->
+            <div class="col-1">
                 <!-- STOCK -->
-                <div id="stock" class="boxe">
-                    <h2>STOCK</h2>
+                <div id="stock" class="boxe boxe-off">
+                    <button type="button" class="but on-off-btn off-btn">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="but on-off-btn on-btn">
+                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                    </button>
+                    <i class="fa fa-inbox" aria-hidden="true"></i>
+                    <h2>Stock</h2>
                     <button type="button" id="butSell" class="but" ng-click="sellStock()">Vendre</button>
                     <button type="button" id="butMix" class="but" ng-click="mixMat()">Mélanger</button>
                     <section class="enum">
                         <ul class="liste" id="stockJoueur-liste">
                             <li ng-repeat="matStock in stock">
-                                <div>
-                                    {{matStock.quantity}} Unité(s) de {{matStock.name}} en stock. 
-                                    <input type="checkbox" ng-change="boxStockChecked()" ng-model="matStock.checked" /> Vendre : <input  type="number" min="0" max="{{matStock.quantity}}" ng-model="matStock.quantityBought" />
-                                </div>
+                                <label class="my-label">
+                                    <input type="checkbox" ng-change="boxStockChecked()" ng-model="matStock.checked" />
+                                    <span class="bold-txt">{{matStock.quantity}}</span> unité(s) de <span class="bold-txt">{{matStock.name}}</span> en stock.
+                                     Vendre :
+                                    <input type="number" min="0" max="{{matStock.quantity}}" ng-model="matStock.quantityBought" />
+                                </label>
                             </li>
                         </ul>
                     </section>
                 </div>
                 <!-- /STOCK -->
-                
+            </div>
+            <!-- /COL 1 -->
+
+            <!-- COL 2 -->
+            <div class="col-2">
+                <!-- ACHAT -->
+                <div id="achat" class="boxe boxe-off">
+                    <button type="button" class="but on-off-btn off-btn" ng-click="showHint()">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="but on-off-btn on-btn">
+                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                    </button>
+                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    <h2>Achats disponibles</h2>
+                    <div class="action">
+                        <label id="selectAllBuy">
+                            <input type="checkbox" ng-change="selectAllStock()" ng-model="selectAllBuyFlag" />
+                            Tout remplir
+                        </label>
+                        <button type="button" id="butBuy" class="but" ng-click="buyStock()">Acheter</button>
+                    </div>
+                    <section class="enum">
+                        <ul class="liste" id="achat-liste">
+                            <!-- ng-class = css, voir doc https://docs.angularjs.org/api/ng/directive/ngClass-->
+                            <li ng-repeat="matAchat in stockAchat">
+                                <div>
+                                    {{matAchat.quantity}} unité(s) de {{matAchat.name}}. Acheter :
+                                    <input type="number" min="0" max="{{matAchat.quantity}}" ng-model="matAchat.quantityBought" />
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                    
+                </div>
+                <!-- /ACHAT -->
                 <!-- EXPERIENCES -->
-                <div id="exp" class="boxe">
-                    <h2>EXPERIENCES EN COURS</h2>
+                <div id="exp" class="boxe boxe-off">
+                    <button type="button" class="but on-off-btn off-btn">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="but on-off-btn on-btn">
+                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                    </button>
+                    <i class="fa fa-flask" aria-hidden="true"></i>
+                    <h2>Expérience(s) en cours</h2>
                     <section class="enum">
                         <ul class="liste" id="listeExp">
                             <li ng-repeat="exp in expRunning">
                                 <div>
-                                    Vous avez mélangé {{exp.mat1Name}} et {{exp.mat2Name}}. Résultat dans {{exp.dayCount}} jour(s).
+                                    Vous avez mélangé <span class="bold-txt">{{exp.mat1Name}}</span> et <span class="bold-txt">{{exp.mat2Name}}</span>.<br>Résultat dans <span class="bold-txt">{{exp.dayCount}}</span> jour(s).
                                 </div>
                             </li>
                         </ul>
                     </section>
                 </div>
                 <!-- /EXPERIENCES -->
-                
-                <!-- ACHAT -->
-                <div id="achat" class="boxe">
-                    <h2>ACHATS DISPONIBLES</h2>
-                    <button type="button" id="butBuy" class="but" ng-click="buyStock()">Acheter</button>
-                    <section class="enum">
-                        <ul class="liste" id="achat-liste">
-                            <!-- ng-class = css, voir doc https://docs.angularjs.org/api/ng/directive/ngClass-->
-                            <li ng-repeat="matAchat in stockAchat"
-                                <div>
-                                     {{matAchat.quantity}} Unité(s) de {{matAchat.name}} disponible(s). Acheter :
-                                <input type="number" min = "0" max="{{matAchat.quantity}}" ng-model="matAchat.quantityBought" /> 
-                                </div>
-                            </li>
-                        </ul>
-                    </section>
-                    <div id="selectAllBuy">Tout acheter.<input type="checkbox" ng-change="selectAllStock()" ng-model="selectAllBuyFlag" />
-                    </div>
-                </div>
-                <!-- /ACHAT -->
-                
+            </div>
+            <!-- /COL 2 -->
+
+            <!-- COL 3 -->
+            <div class="col-3">
                 <!-- RECETTES -->
-                <div id="recettes" class="boxe">
-                    <h2>RECETTES</h2>
+                <div id="recettes" class="boxe boxe-off">
+                    <button type="button" class="but on-off-btn off-btn">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="but on-off-btn on-btn">
+                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                    </button>
+                    <i class="fa fa-magic" aria-hidden="true"></i>
+                    <h2>Recettes</h2>
                     <section class="enum">
                         <ul class="liste" id="listeRecette">
                             <li ng-repeat="recette in recettesConnues">
                                 <div>
-                                    Vous avez appris qu'en mélangeant : {{recette.mat1Name}} et {{recette.mat2Name}} vous obtenez : {{recette.matGenName}}.
+                                    Vous avez appris qu'en mélangeant :<br> <span class="bold-txt">{{recette.mat1Name}}</span> et <span class="bold-txt">{{recette.mat2Name}}</span> vous obtenez : <span class="bold-txt">{{recette.matGenName}}</span>.
                                 </div>
                             </li>
                         </ul>
                     </section>
                 </div>
                 <!-- /RECETTES -->
-                
+
                 <!-- HISTORIQUE -->
-                <div id="hist" class="boxe">
-                    <h2>HISTORIQUE</h2>
+                <div id="hist" class="boxe boxe-off">
+                    <button type="button" class="but on-off-btn off-btn">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="but on-off-btn on-btn">
+                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                    </button>
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <h2>Historique</h2>
                     <section class="enum">
                         <ul class="liste" id="listeHist"></ul>
                     </section>
                 </div>
                 <!-- /HISTORIQUE -->
-        
-                <!-- BUT -->
-                <div id="butJeu" class="boxe">
-                    <h2>MATERIAUX ULTIMES A OBTENIR</h2>
-                    <section class="enum">
-                        <ul class="liste" id="listeBut">
-                            <li id="D1" class="matGoal">Couvercle d'étoile</li>
-                            <li id="D2" class="matGoal">Pinceau à sueur</li>
-                            <li id="D3" class="matGoal">Karaoké de carpes</li>
-                            <li id="D4" class="matGoal">Licol d'espoir</li>
-                        </ul>
-                    </section>
-                </div>
-                <!-- /BUT -->
             </div>
-            <!-- /ONGLETS -->
+            <!-- /COL-3 -->
         </div>
-        <!-- /ECRAN DE JEU -->
-    </body>
+        <!-- /ONGLETS -->
+    </div>
+    <!-- /ECRAN DE JEU -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Règles du jeu</h4>
+          </div>
+          <div class="modal-body">
+            <p class="right-p" id="indications">
+                Pour créer une nouvelle expérience, il faut mélanger deux matériaux (pas plus).
+            </p>
+            <p class="right-p" id="indications">
+                Pour cela il suffit de cocher les cases correspondantes à chaque entrée, et cliquer sur le bouton "mélanger". Pour obtenir le résutat d'une expérience il faut attendre un jour. Pour cela il suffit de cliquer sur "jour suivant".
+            </p>
+            <p class="right-p" id="indications">
+                Plusieurs expériences peuvent être lancées simultanément.
+            </p>
+            <hr />
+            <!-- BUT -->
+            <div id="butJeu" class="boxe">
+                <h2>Matériaux ultimes à obtenir</h2>
+                <section class="enum">
+                    <ul class="liste" id="listeBut">
+                        <li id="D1" class="matGoal">Couvercle d'étoile</li>
+                        <li id="D2" class="matGoal">Pinceau à sueur</li>
+                        <li id="D3" class="matGoal">Karaoké de carpes</li>
+                        <li id="D4" class="matGoal">Licol d'espoir</li>
+                    </ul>
+                </section>
+            </div>
+            <!-- /BUT -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="but" data-dismiss="modal">Pigé !</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
 </html>

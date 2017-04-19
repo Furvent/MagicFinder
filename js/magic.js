@@ -30,6 +30,9 @@ magic.controller('testCtrl', ['$scope',
         $scope.buyStock = function () {
             console.log("i clicked on buyStock");
             
+            // Uncheck Select all
+            $scope.selectAllBuyFlag = false;
+            
             // Iteration pour savoir quel mat a été acheté.
             // Peut être meilleur moyen qu'une itération ?
             for (var i = 0; i < $scope.stockAchat.length; i++) {
@@ -240,4 +243,4 @@ magic.controller('testCtrl', ['$scope',
             }
         };
     }
- ]);
+]);
