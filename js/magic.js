@@ -216,15 +216,12 @@ magic.controller('testCtrl', ['$scope',
                 if ($scope.stock[i].checked) {
                     compteur++
                 }
-                
                 console.log("checked : " + $scope.stock[i].checked);
             }
             
             if (compteur !== 2) {
                 document.getElementById("butMix").disabled = true;
-            }
-            
-            else {
+            } else {
                 document.getElementById("butMix").disabled = false;
             }
         }
@@ -235,8 +232,7 @@ magic.controller('testCtrl', ['$scope',
                 for (var i = 0; i < stockAchatDB.length; i++) {
                     stockAchatDB[i].quantityBought = stockAchatDB[i].quantity;
                 }
-            }
-            else {
+            } else {
                 for (var i = 0; i < stockAchatDB.length; i++) {
                     stockAchatDB[i].quantityBought = 0;
                 }
